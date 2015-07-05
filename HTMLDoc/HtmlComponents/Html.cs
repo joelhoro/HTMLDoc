@@ -33,7 +33,7 @@ namespace HTMLDoc.HtmlComponents
         }
         public override string ToHTML()
         {
-            return String.Format("<script>\n{0}\n</script>\n", _code);
+            return String.Format("\t<script>\n{0}\n\t</script>\n", _code);
         }
 
         public override string ToString()

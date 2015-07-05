@@ -20,28 +20,26 @@ namespace HTMLDoc
         private JScript JSInitialization()
         {
             var jsbody = initializationJs;
-            for (int i = 0; i < tableCount; i++)
-            {
-                var variableName = String.Format(JSDoc.TableVariableName, i);
-                jsbody += string.Format("\tDataInfoToTable({0});\n", variableName);
-                // TODO: clean up
-                jsbody += string.Format(@"
-				var {0}_alldata= [{0}.headers].concat({0}.data);
-				var {0}_csv_link = CsvLink({0}_alldata,'data.csv');
-				{0}_csv_link.textContent = '[csv]';
-				$('#{0}').append({0}_csv_link);
-				var {0}_link = JsonLink({0}_alldata,'data.json');
-				{0}_link.textContent = '[json]';
-				$('#{0}').append({0}_link);
-			", variableName);
-
-            }
-            var initialization = String.Format(@"
-	// initialization
-	$(document).ready( function() {{
-		{0}	}} );
-		", jsbody);
-            return new JScript(initialization);
+            jsbody += String.Format(@"
+	        // initialization
+	        $(document).ready( function() {{
+                tableCount = {0}.length;
+                for (var i = 0; i < tableCount; i++)
+                {{
+                    var table = {0}[i];
+                    DataInfoToTable(table);
+                    var alldata= [table.headers].concat(table.data);
+                    var csv_link = CsvLink(alldata,'data.csv');
+                    csv_link.textContent = '[csv]';
+                    var node = $('#{0}_'+i);
+                    node.append(csv_link);
+                    var link = JsonLink(alldata,'data.json');
+                    link.textContent = '[json]';
+                    node.append(link);
+                }}
+            }} );",  
+            JSDoc.TableVariableName);
+            return new JScript(jsbody);
         }
 
         private string initializationJs = "";
@@ -66,16 +64,16 @@ namespace HTMLDoc
         public void AddTable(IEnumerable<string> headers, IEnumerable<IEnumerable<object>> rows)
         {
             jsDoc.AddTable(headers, rows, tableCount);
-            var tableVariableName = string.Format(JSDoc.TableVariableName, tableCount++);
             var addLink = true;
             var html = "";
             if (addLink)
-                html += string.Format("<div id='{0}'></div>", tableVariableName);
+                html += string.Format("\n\t\t\t<div id='{0}_{1}'></div>", JSDoc.TableVariableName, tableCount);
             html += string.Format(@"
-			<table id='{0}' class='table bootstrap-table table-striped table-hover'>
+			<table id='{0}_{1}' class='table bootstrap-table table-striped table-hover'>
 				<thead></thead><tbody></tbody>
 			</table>
-		", tableVariableName);
+		", JSDoc.TableVariableName,tableCount);
+            tableCount++;
             Add(new HTML(html));
         }
 

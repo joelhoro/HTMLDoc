@@ -15,7 +15,7 @@ namespace Console
         {
             Directory.SetCurrentDirectory(@"c:\Users\joel\Dropbox\Programming\HTML");
 
-            var jsdoc = new JSDoc();
+            var jsdoc = new HtmlDocDataTableComponent();
             //	var headers = new List<string>() { "AAA", "BBB", "CCC" };
             //	var table = new List<List<object>>() {
             //		new List<object>() { "XXX", 123, 5.4 },

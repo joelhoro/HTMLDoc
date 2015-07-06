@@ -36,17 +36,21 @@ namespace Console
             htmldoc.AddCSSLink("bootstrap/css/bootstrap-responsive.css");
             htmldoc.AddJSLink("bootstrap/js/jquery.js");
             htmldoc.AddJSLink("bootstrap/js/bootstrap.js");
+            htmldoc.AddJSLink("lib/angular.min.js");
+            
             // 
-            htmldoc.AddJSLink("htmldoc_utils.js");
-
+            htmldoc.AddJSLink("htmlDocTableDirective.js");
+            htmldoc.StartBody();
             htmldoc.AddToBody("<H1>Table</H1>");
-            htmldoc.AddTable<SalesRecord>(headers, records);
+            htmldoc.AddTable<SalesRecord>(headers, records.Take(5));
 
+            var persons = new List<PersonRecord>() {
+		new PersonRecord { Name = "Bob", Age = 54 },
+		new PersonRecord { Name = "Mitch", Age = 34 }		
+	};
+
+            htmldoc.AddTable<PersonRecord>(new[] { "Name", "Age" }, persons);
             htmldoc.AddToBody(string.Format("Created at {0}", DateTime.Now.ToString()));
-            htmldoc.Components();
-            htmldoc.Components();
-            htmldoc.Components();
-            htmldoc.Components();
 
             var fileName = "htmlDoc.html";
             htmldoc.Write(fileName);

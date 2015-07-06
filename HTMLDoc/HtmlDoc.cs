@@ -20,25 +20,7 @@ namespace HTMLDoc
         private JScript JSInitialization()
         {
             var jsbody = initializationJs;
-            jsbody += String.Format(@"
-	        // initialization
-	        $(document).ready( function() {{
-                tableCount = {0}.length;
-                for (var i = 0; i < tableCount; i++)
-                {{
-                    var table = {0}[i];
-                    DataInfoToTable(table);
-                    var alldata= [table.headers].concat(table.data);
-                    var csv_link = CsvLink(alldata,'data.csv');
-                    csv_link.textContent = '[csv]';
-                    var node = $('#{0}_'+i);
-                    node.append(csv_link);
-                    var link = JsonLink(alldata,'data.json');
-                    link.textContent = '[json]';
-                    node.append(link);
-                }}
-            }} );",  
-            JSDoc.TableVariableName);
+            jsbody += @"angular.module('htmlDocApp', ['htmlDocTable', 'htmlDocData']);";
             return new JScript(jsbody);
         }
 
@@ -69,10 +51,10 @@ namespace HTMLDoc
             if (addLink)
                 html += string.Format("\n\t\t\t<div id='{0}_{1}'></div>", JSDoc.TableVariableName, tableCount);
             html += string.Format(@"
-			<table id='{0}_{1}' class='table bootstrap-table table-striped table-hover'>
-				<thead></thead><tbody></tbody>
-			</table>
-		", JSDoc.TableVariableName,tableCount);
+		        <div ng-controller='htmlDocDataTableController'>
+                    <div html-doc-table headers='tables[{0}].headers' data='tables[0].data'></div>
+                </div>
+		        ", tableCount);
             tableCount++;
             Add(new HTML(html));
         }
@@ -85,7 +67,7 @@ namespace HTMLDoc
         public void StartBody()
         {
             Add(new HTML("</head>\n\n"));
-            Add(new HTML("<body>\n"));
+            Add(new HTML("<body ng-app='htmlDocApp'>\n"));
         }
 
         public void EndBody()

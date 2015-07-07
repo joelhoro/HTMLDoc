@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HTMLDoc
 {
-    public class HtmlDocDataTableController : JSDoc
+    public class HtmlDocDataTableController : HtmlDocBase
     {
         public const string ModuleName = "htmlDocData";
 
@@ -33,21 +33,8 @@ namespace HTMLDoc
         		", _tablecode, Tag, ModuleName);
 
         }
-        public static IEnumerable<object> FlattenObject<T>(T row)
-        {
-            return row
-                .GetType()
-                .GetProperties()
-                .Select(p => p.GetValue(row));
-        }
 
-        public void AddTable<T>(IEnumerable<string> headers, IEnumerable<T> rows, int tableCount)
-        {
-            var flatRows = rows.Select(r => FlattenObject<T>(r));
-            AddTable(headers, flatRows, tableCount);
-        }
-
-        public string AddTable(IEnumerable<string> headers, IEnumerable<IEnumerable<object>> rows, int tableCount)
+        public override string AddTable(IEnumerable<string> headers, IEnumerable<IEnumerable<object>> rows, int tableCount)
         {
             _tablecode += string.Format(@"
       	                {{

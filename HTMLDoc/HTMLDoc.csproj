@@ -52,6 +52,7 @@
     <Compile Include="HtmlComponents\HtmlComponentBase.cs" />
     <Compile Include="HtmlComponents\Includes.cs" />
     <Compile Include="HtmlDoc.cs" />
+    <Compile Include="HtmlDocBase.cs" />
     <Compile Include="HtmlDocDataTableComponent.cs" />
     <Compile Include="JsDoc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

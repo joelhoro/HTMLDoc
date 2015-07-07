@@ -13,7 +13,7 @@ namespace Console
     {
         static void Main()
         {
-            Directory.SetCurrentDirectory(@"c:\Users\joel\Dropbox\Programming\HTML");
+            Directory.SetCurrentDirectory(@"..\..\..\HTMLDoc\assets");
 
             var jsdoc = new HtmlDocDataTableComponent();
             //	var headers = new List<string>() { "AAA", "BBB", "CCC" };
@@ -32,22 +32,23 @@ namespace Console
             var records = csv.GetRecords<SalesRecord>().ToList();
 
             var htmldoc = new HTMLDoc.HTMLDoc();
-            htmldoc.AddCSSLink("bootstrap/css/bootstrap.css");
-            htmldoc.AddCSSLink("bootstrap/css/bootstrap-responsive.css");
-            htmldoc.AddJSLink("bootstrap/js/jquery.js");
-            htmldoc.AddJSLink("bootstrap/js/bootstrap.js");
-            htmldoc.AddJSLink("lib/angular.min.js");
+            htmldoc.AddCSSLink("lib/3rdParty/bootstrap/css/bootstrap.css");
+            htmldoc.AddCSSLink("lib/3rdParty/bootstrap/css/bootstrap-responsive.css");
+            //htmldoc.AddJSLink("bootstrap/js/jquery.js");
+            htmldoc.AddJSLink("lib/3rdParty/bootstrap/js/bootstrap.js");
+            htmldoc.AddJSLink("lib/3rdParty/angular.min.js");
             
             // 
-            htmldoc.AddJSLink("htmlDocTableDirective.js");
+            htmldoc.AddJSLink("lib/htmldoc_utils.js");
+            htmldoc.AddJSLink("lib/htmldoctableDirective.js");
             htmldoc.StartBody();
             htmldoc.AddToBody("<H1>Table</H1>");
             htmldoc.AddTable<SalesRecord>(headers, records.Take(5));
 
             var persons = new List<PersonRecord>() {
-		new PersonRecord { Name = "Bob", Age = 54 },
-		new PersonRecord { Name = "Mitch", Age = 34 }		
-	};
+		        new PersonRecord { Name = "Bob", Age = 54 },
+		        new PersonRecord { Name = "Mitch", Age = 34 }		
+	        };
 
             htmldoc.AddTable<PersonRecord>(new[] { "Name", "Age" }, persons);
             htmldoc.AddToBody(string.Format("Created at {0}", DateTime.Now.ToString()));

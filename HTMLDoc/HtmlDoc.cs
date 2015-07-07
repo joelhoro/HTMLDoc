@@ -17,10 +17,13 @@ namespace HTMLDoc
         private List<HTMLComponent> components = new List<HTMLComponent>();
         public bool VerboseHTML = false;
 
+        const string tableModule = "htmlDocTable";
+        const string AppName = "htmlDocApp";
+
         private JScript JSInitialization()
         {
             var jsbody = initializationJs;
-            jsbody += @"angular.module('htmlDocApp', ['htmlDocTable', 'htmlDocData']);";
+            jsbody += String.Format(@"angular.module('{0}', ['{1}', '{2}']);", AppName, tableModule, HtmlDocDataTableController.ModuleName);
             return new JScript(jsbody);
         }
 
@@ -33,28 +36,24 @@ namespace HTMLDoc
 
         public void Add(HTMLComponent component) { components.Add(component); }
 
-        private HtmlDocDataTableComponent htmlDocData = new HtmlDocDataTableComponent();
+        private HtmlDocDataTableController htmlDocData = new HtmlDocDataTableController();
 
         private int tableCount = 0;
+        private bool _bodyStarted = false;
 
         public void AddTable<T>(IEnumerable<string> headers, IEnumerable<T> rows)
         {
-            var flatRows = rows.Select(r => HtmlDocDataTableComponent.FlattenObject<T>(r));
+            var flatRows = rows.Select(r => HtmlDocDataTableController.FlattenObject<T>(r));
             AddTable(headers, flatRows);
         }
 
         public void AddTable(IEnumerable<string> headers, IEnumerable<IEnumerable<object>> rows)
         {
-            htmlDocData.AddTable(headers, rows, tableCount);
             var addLink = true;
             var html = "";
             //if (addLink)
                 //html += string.Format("\n\t\t\t<div id='{0}_{1}'></div>", JSDoc.TableVariableName, tableCount);
-            html += string.Format(@"
-		        <div ng-controller='htmlDocDataTableController'>
-                    <div html-doc-table headers='tables[{0}].headers' data='tables[{0}].data'></div>
-                </div>
-		        ", tableCount);
+            html += htmlDocData.AddTable(headers, rows, tableCount);
             tableCount++;
             Add(new HTML(html));
         }
@@ -67,20 +66,28 @@ namespace HTMLDoc
         public void StartBody()
         {
             Add(new HTML("</head>\n\n"));
-            Add(new HTML("<body ng-app='htmlDocApp'>\n"));
+            Add(new HTML(String.Format("<body ng-app='{0}'>\n", AppName)));
+            _bodyStarted = true;
         }
 
+        public static HTML BodyEnd()
+        {
+            return new HTML("</body>\n\n");
+        }
         public void EndBody()
         {
-            Add(new HTML("</body>\n\n"));
+            Add(BodyEnd());
         }
 
         public List<HTMLComponent> Components()
         {
             var allcomponents = components.ToList();
-            var jsFileName = htmlDocData.Write(string.Format("data\\htmldoc_data_{0:yy-MM-dd-HHmmss}.js", DateTime.Now));
+                
+            var jsFileName = htmlDocData.Write(@"data\\" + htmlDocData.Tag + ".js");
             allcomponents.Add(new JSInclude(jsFileName));
             allcomponents.Add(JSInitialization());
+            if (_bodyStarted)
+                allcomponents.Add(BodyEnd());
             return allcomponents;
         }
 

@@ -51,6 +51,7 @@ namespace Console
 		        new PersonRecord { Name = "Mitch", Age = 34 }		
 	        };
 
+            htmldoc.AddToBody("And here goes another table");
             htmldoc.AddTable<PersonRecord>(new[] { "Name", "Age" }, persons);
             htmldoc.AddToBody(string.Format("Created at {0}", DateTime.Now.ToString()));
 

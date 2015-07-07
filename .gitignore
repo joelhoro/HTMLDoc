@@ -9,3 +9,5 @@ packages/
 
 *.suo
 HTMLDoc/assets/data/*
+HTMLDoc/zervit.exe
+HTMLDoc/assets/htmlDoc2.html

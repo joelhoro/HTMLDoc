@@ -17,13 +17,23 @@ namespace HTMLDoc
         private List<HTMLComponent> components = new List<HTMLComponent>();
         public bool VerboseHTML = false;
 
-        const string tableModule = "htmlDocTable";
         const string AppName = "htmlDocApp";
+        const string DocModule = "htmlDoc";
+
+        private bool useJsonTables = true;
+
+        public HTMLDoc()
+        {
+            htmlDocData = HtmlDocBase.Create(useJsonTables);
+
+            Add(new HTML("<html>\n<head>\n"));
+        }
+
 
         private JScript JSInitialization()
         {
             var jsbody = initializationJs;
-            jsbody += String.Format(@"angular.module('{0}', ['{1}', '{2}']);", AppName, tableModule, HtmlDocDataTableController.ModuleName);
+            jsbody += String.Format(@"angular.module('{0}', ['{1}', '{2}']);", AppName, DocModule, htmlDocData.ModuleName);
             return new JScript(jsbody);
         }
 
@@ -36,7 +46,7 @@ namespace HTMLDoc
 
         public void Add(HTMLComponent component) { components.Add(component); }
 
-        private HtmlDocDataTableController htmlDocData = new HtmlDocDataTableController();
+        private HtmlDocBase htmlDocData;
 
         private int tableCount = 0;
         private bool _bodyStarted = false;
@@ -58,11 +68,6 @@ namespace HTMLDoc
             Add(new HTML(html));
         }
 
-        public HTMLDoc()
-        {
-            Add(new HTML("<html>\n<head>\n"));
-        }
-
         public void StartBody()
         {
             Add(new HTML("</head>\n\n"));
@@ -82,9 +87,9 @@ namespace HTMLDoc
         public List<HTMLComponent> Components()
         {
             var allcomponents = components.ToList();
-                
-            var jsFileName = htmlDocData.Write(@"data\\" + htmlDocData.Tag + ".js");
-            allcomponents.Add(new JSInclude(jsFileName));
+
+            var jsIncludes = htmlDocData.Includes(htmlDocData.Tag);
+            allcomponents.AddRange(jsIncludes);
             allcomponents.Add(JSInitialization());
             if (_bodyStarted)
                 allcomponents.Add(BodyEnd());

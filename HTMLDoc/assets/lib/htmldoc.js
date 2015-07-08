@@ -1,6 +1,12 @@
-angular.module('htmlDocTable', [])
+angular.module('htmlDoc', [])
+	   .controller('htmlDocJsonLoader', function($scope,$http,$attrs) {
+			var source = $attrs.source;
+			$http.get(source, { cache: true }).success(function(data) {
+				$scope.data = data;
+			})			
+	   } )
 	  .directive('htmlDocTable', function(){
-		
+	      debugger;
 		// usage:
 		//
 		//		<div html-doc-table headers='["XXX","YYY"]' data='[[1,2],[3,4]]'></div>

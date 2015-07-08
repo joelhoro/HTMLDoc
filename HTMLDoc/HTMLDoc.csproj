@@ -53,6 +53,7 @@
     <Compile Include="HtmlComponents\Includes.cs" />
     <Compile Include="HtmlDoc.cs" />
     <Compile Include="HtmlDocBase.cs" />
+    <Compile Include="HtmlDocJson.cs" />
     <Compile Include="HtmlDocDataTableComponent.cs" />
     <Compile Include="JsDoc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -60,6 +61,10 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="assets\lib\htmldoc.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

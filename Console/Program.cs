@@ -37,7 +37,7 @@ namespace Console
             
             // 
             htmldoc.AddJSLink("lib/htmldoc_utils.js");
-            htmldoc.AddJSLink("lib/htmldoctableDirective.js");
+            htmldoc.AddJSLink("lib/htmldoc.js");
             htmldoc.StartBody();
             htmldoc.AddToBody("<H1>Table</H1>");
 

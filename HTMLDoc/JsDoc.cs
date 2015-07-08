@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using HTMLDoc.HtmlComponents;
 
 namespace HTMLDoc
 {
@@ -12,6 +13,7 @@ namespace HTMLDoc
     {
         public abstract string Contents();
 
+        public abstract bool Include();
         public string Write(string fileName = "")
         {
             if (fileName == "")
@@ -21,6 +23,11 @@ namespace HTMLDoc
             return fileName;
         }
 
-
+        public IEnumerable<HTMLComponent> Includes(string tag)
+        {
+            var jsFileName = Write(@"data\\" + tag + ".js");
+            if (Include())
+                yield return new JSInclude(jsFileName) as HTMLComponent;
+        }
     }
 }

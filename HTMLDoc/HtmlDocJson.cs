@@ -39,11 +39,21 @@ namespace HTMLDoc
       	                }}
         		", JsonConvert.SerializeObject(headers), JsonConvert.SerializeObject(rows));
 
+            var downloadLink = @"
+                    <button download-link title='TableData' format='{1}' data='{{{{data[{0}].data}}}}' headers='{{{{data[{0}].headers}}}}' 
+                            type=button class='btn btn-default btn-sm'>
+                        <span class='glyphicon glyphicon-download-alt'></span>  &nbsp;{2}
+                    </button>";
+            var downloadCsv = downloadLink.AsFormat(tableCount, "csv","CSV");
+            var downloadJson = downloadLink.AsFormat(tableCount, "json", "Json");
+
             return string.Format(@"
                 <div ng-controller='htmlDocJsonLoader' source='data\{0}.js'>
+
                 	<div html-doc-table headers='data[{1}].headers' data='data[{1}].data'></div>
+                    {2}{3}
                 </div>
-		        ", Tag, tableCount);
+		        ", Tag, tableCount, downloadCsv, downloadJson);
         }
     }
 }

@@ -19,6 +19,7 @@ namespace HTMLDoc
 
         const string AppName = "htmlDocApp";
         const string DocModule = "htmlDoc";
+        const string DownloadLinkModule = "downloadlinks";
 
         private readonly bool useJsonTables = true;
 
@@ -26,15 +27,34 @@ namespace HTMLDoc
         {
             this.useJsonTables = useJsonTables;
             htmlDocData = HtmlDocBase.Create(useJsonTables);
+            AngularModules = new List<string>();
 
             Add(new HTML("<html>\n<head>\n"));
         }
 
+        public void AddCSSandJSLinks()
+        {
+            var bootstrapDir = "lib/3rdParty/bootstrap-3.3.5-dist";
+            AddCSSLink("{0}/css/bootstrap.min.css".AsFormat(bootstrapDir));
+            AddCSSLink("{0}/css/bootstrap-responsive.css.AsFormat(bootstrapDir)");
+            AddJSLink("{0}/js/jquery.js".AsFormat(bootstrapDir));
+            AddJSLink("{0}/js/bootstrap.js");
+            AddJSLink("lib/3rdParty/angular.min.js");
+            // 
+            //htmldoc.AddJSLink("lib/htmldoc_utils.js");
+            AddJSLink("lib/downloadlinks.js");
+            AddJSLink("lib/htmldoc.js");
+            AngularModules.AddRange(new[] { AppName, DocModule, htmlDocData.ModuleName, DownloadLinkModule });
+        }
+
+
+        private List<string> AngularModules;
 
         private JScript JSInitialization()
         {
             var jsbody = initializationJs;
-            jsbody += String.Format(@"angular.module('{0}', ['{1}', '{2}']);", AppName, DocModule, htmlDocData.ModuleName);
+            var modules = string.Join(", ", AngularModules.Select(m => "'" + m + "'"));
+            jsbody += String.Format(@"angular.module('{0}', [{1}]);", AppName, modules);
             return new JScript(jsbody);
         }
 

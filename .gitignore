@@ -8,7 +8,7 @@ build/
 packages/
 
 *.suo
-HTMLDoc/assets/data/*
+HTMLDoc/assets/data/htmldoc_data*
 HTMLDoc/zervit.exe
 HTMLDoc/assets/htmlDoc2.html
 HTMLDoc/assets/trash/*

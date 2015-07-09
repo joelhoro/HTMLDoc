@@ -29,15 +29,8 @@ namespace Console
 
 
             var htmldoc = new HTMLDoc.HTMLDoc();
-            htmldoc.AddCSSLink("lib/3rdParty/bootstrap/css/bootstrap.css");
-            htmldoc.AddCSSLink("lib/3rdParty/bootstrap/css/bootstrap-responsive.css");
-            htmldoc.AddJSLink("lib/3rdParty/bootstrap/js/jquery.js");
-            htmldoc.AddJSLink("lib/3rdParty/bootstrap/js/bootstrap.js");
-            htmldoc.AddJSLink("lib/3rdParty/angular.min.js");
-            
-            // 
-            htmldoc.AddJSLink("lib/htmldoc_utils.js");
-            htmldoc.AddJSLink("lib/htmldoc.js");
+            htmldoc.AddCSSandJSLinks();
+
             htmldoc.StartBody();
             htmldoc.AddToBody("<H1>Table</H1>");
 
@@ -56,8 +49,10 @@ namespace Console
             htmldoc.AddToBody(string.Format("Created at {0}", DateTime.Now.ToString()));
 
             var fileName = "htmlDoc.html";
+            var server = "localhost:8080";
+            
             htmldoc.Write(fileName);
-            Process.Start(fileName);
+            Process.Start("chrome", "http://{0}/{1}".AsFormat(server, fileName));
         }
     }
 }

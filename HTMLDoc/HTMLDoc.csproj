@@ -60,11 +60,28 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="assets\sample data\SampleData.csv" />
+    <None Include="assets\sample data\SampleData.csv.bak" />
+    <None Include="assets\sample data\SampleData.xls" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="assets\lib\downloadlinks.js" />
+    <None Include="assets\htmlDoc.html" />
+    <Content Include="assets\lib\3rdParty\angular.min.js" />
+    <Content Include="assets\lib\3rdParty\bootstrap\css\bootstrap-responsive.css" />
+    <Content Include="assets\lib\3rdParty\bootstrap\css\bootstrap-responsive.min.css" />
+    <Content Include="assets\lib\3rdParty\bootstrap\css\bootstrap.css" />
+    <Content Include="assets\lib\3rdParty\bootstrap\css\bootstrap.min.css" />
+    <Content Include="assets\lib\3rdParty\bootstrap\img\glyphicons-halflings-white.png" />
+    <Content Include="assets\lib\3rdParty\bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="assets\lib\3rdParty\bootstrap\js\bootstrap.js" />
+    <Content Include="assets\lib\3rdParty\bootstrap\js\bootstrap.min.js" />
+    <Content Include="assets\lib\3rdParty\bootstrap\js\jquery-1.11.2.min.js" />
+    <Content Include="assets\lib\3rdParty\bootstrap\js\jquery.js" />
     <Content Include="assets\lib\htmldoc.js" />
+    <Content Include="assets\lib\htmldoc_utils.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -20,10 +20,11 @@ namespace HTMLDoc
         const string AppName = "htmlDocApp";
         const string DocModule = "htmlDoc";
 
-        private bool useJsonTables = true;
+        private readonly bool useJsonTables = true;
 
-        public HTMLDoc()
+        public HTMLDoc(bool useJsonTables = true)
         {
+            this.useJsonTables = useJsonTables;
             htmlDocData = HtmlDocBase.Create(useJsonTables);
 
             Add(new HTML("<html>\n<head>\n"));

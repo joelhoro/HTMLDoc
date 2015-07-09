@@ -35,15 +35,14 @@ namespace HTMLDoc
         public void AddCSSandJSLinks()
         {
             var bootstrapDir = "lib/3rdParty/bootstrap-3.3.5-dist";
-            AddCSSLink("{0}/css/bootstrap.min.css".AsFormat(bootstrapDir));
-            AddCSSLink("{0}/css/bootstrap-responsive.css.AsFormat(bootstrapDir)");
-            AddJSLink("{0}/js/jquery.js".AsFormat(bootstrapDir));
-            AddJSLink("{0}/js/bootstrap.js");
+            AddCSSLink(@"{0}/css/bootstrap.min.css".AsFormat(bootstrapDir));
+            AddJSLink(@"{0}/js/jquery-1.11.3.min.js".AsFormat(bootstrapDir));
+            AddJSLink(@"{0}/js/bootstrap.js".AsFormat(bootstrapDir));
             AddJSLink("lib/3rdParty/angular.min.js");
-            // 
-            //htmldoc.AddJSLink("lib/htmldoc_utils.js");
+
             AddJSLink("lib/downloadlinks.js");
             AddJSLink("lib/htmldoc.js");
+
             AngularModules.AddRange(new[] { AppName, DocModule, htmlDocData.ModuleName, DownloadLinkModule });
         }
 

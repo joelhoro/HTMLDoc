@@ -71,19 +71,15 @@ namespace HTMLDoc
         private int tableCount = 0;
         private bool _bodyStarted = false;
 
-        public void AddTable<T>(IEnumerable<string> headers, IEnumerable<T> rows)
+        public void AddTable<T>(IEnumerable<T> rows)
         {
-            var flatRows = rows.Select(r => HtmlDocDataTableController.FlattenObject<T>(r));
-            AddTable(headers, flatRows);
+            var dictionaries = rows.Select(HtmlDocDataTableController.ToDictionary<T>);
+            AddTable(dictionaries);
         }
 
-        public void AddTable(IEnumerable<string> headers, IEnumerable<IEnumerable<object>> rows)
+        private void AddTable(IEnumerable<Dictionary<string,object>> dictionaries)
         {
-            var addLink = true;
-            var html = "";
-            //if (addLink)
-                //html += string.Format("\n\t\t\t<div id='{0}_{1}'></div>", JSDoc.TableVariableName, tableCount);
-            html += htmlDocData.AddTable(headers, rows, tableCount);
+            var html = htmlDocData.AddTable(dictionaries, tableCount);
             tableCount++;
             Add(new HTML(html));
         }
@@ -108,7 +104,7 @@ namespace HTMLDoc
         {
             var allcomponents = components.ToList();
 
-            var jsIncludes = htmlDocData.Includes(htmlDocData.Tag);
+            var jsIncludes = htmlDocData.Includes();
             allcomponents.AddRange(jsIncludes);
             allcomponents.Add(JSInitialization());
             if (_bodyStarted)

@@ -16,6 +16,11 @@ namespace HTMLDoc
             return false;
         }
 
+        public override string Extension()
+        {
+            return "json";
+        }
+
         public HtmlDocJson()
         {
             _tablecode = "";
@@ -28,19 +33,14 @@ namespace HTMLDoc
 
         }
 
-        public override string AddTable(IEnumerable<string> headers, IEnumerable<IEnumerable<object>> rows, int tableCount)
+        public override string AddTable(IEnumerable<Dictionary<string, object>> rows, int tableCount)
         {
             if (tableCount != 0)
                 _tablecode += ", ";
-            _tablecode += string.Format(@"
-      	                {{
-			                ""headers"" : {0}, 
-                            ""data"": {1}
-      	                }}
-        		", JsonConvert.SerializeObject(headers), JsonConvert.SerializeObject(rows));
+            _tablecode += JsonConvert.SerializeObject(rows);
 
             var downloadLink = @"
-                    <button download-link title='TableData' format='{1}' data='{{{{data[{0}].data}}}}' headers='{{{{data[{0}].headers}}}}' 
+                    <button download-link title='TableData' format='{1}' data='{{{{data[{0}]}}}}' 
                             type=button class='btn btn-default btn-sm'>
                         <span class='glyphicon glyphicon-download-alt'></span>  &nbsp;{2}
                     </button>";
@@ -48,12 +48,12 @@ namespace HTMLDoc
             var downloadJson = downloadLink.AsFormat(tableCount, "json", "Json");
 
             return string.Format(@"
-                <div ng-controller='htmlDocJsonLoader' source='data\{0}.js'>
+                <div ng-controller='htmlDocJsonLoader' source='{0}'>
 
-                	<div html-doc-table headers='data[{1}].headers' data='data[{1}].data'></div>
+                	<div html-doc-table data='data[{1}]'></div>
                     {2}{3}
                 </div>
-		        ", Tag, tableCount, downloadCsv, downloadJson);
+		        ", JsFileName(), tableCount, downloadCsv, downloadJson);
         }
     }
 }

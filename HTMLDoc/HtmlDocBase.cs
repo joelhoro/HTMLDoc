@@ -12,7 +12,6 @@ namespace HTMLDoc
         public abstract string ModuleName { get;}
 
         protected string _tablecode;
-        public string Tag;
 
         public static HtmlDocBase Create(bool useJson = true)
         {
@@ -29,6 +28,13 @@ namespace HTMLDoc
                 .GetProperties()
                 .Select(p => p.GetValue(row));
         }
+        public static Dictionary<string,object> ToDictionary<T>(T row)
+        {
+            return row
+                .GetType()
+                .GetProperties()
+                .ToDictionary(p => p.Name, p => p.GetValue(row));
+        }
 
         public void AddTable<T>(IEnumerable<string> headers, IEnumerable<T> rows, int tableCount)
         {
@@ -36,6 +42,6 @@ namespace HTMLDoc
             AddTable(headers, flatRows, tableCount);
         }
 
-        public abstract string AddTable(IEnumerable<string> headers, IEnumerable<IEnumerable<object>> rows, int tableCount);
+        public abstract string AddTable(IEnumerable<Dictionary<string, object>> rows, int tableCount);
     }
 }

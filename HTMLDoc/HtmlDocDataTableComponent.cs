@@ -15,6 +15,12 @@ namespace HTMLDoc
         {
             return true;
         }
+
+        public override string Extension()
+        {
+            return "js";
+        }
+
         public HtmlDocDataTableController()
         {
             _tablecode = "";
@@ -35,18 +41,15 @@ namespace HTMLDoc
 
         }
 
-        public override string AddTable(IEnumerable<string> headers, IEnumerable<IEnumerable<object>> rows, int tableCount)
+        public override string AddTable(IEnumerable<Dictionary<string,object>> rows, int tableCount)
         {
-            _tablecode += string.Format(@"
-      	                {{
-			                headers: {0}, 
-                            data: {1}
-      	                }},
-        		", JsonConvert.SerializeObject(headers), JsonConvert.SerializeObject(rows));
+            if (tableCount != 0)
+                _tablecode += ", ";
+            _tablecode += JsonConvert.SerializeObject(rows);
 
             return string.Format(@"
 		        <div ng-controller='{1}'>
-                    <div html-doc-table headers='tables[{0}].headers' data='tables[{0}].data'></div>
+                    <div html-doc-table data='tables[{0}]'></div>
                 </div>
 		        ", tableCount, Tag);
         }

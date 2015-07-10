@@ -12,6 +12,8 @@ namespace HTMLDoc
     public abstract class JSDoc
     {
         public abstract string Contents();
+        public abstract string Extension();
+        public string Tag;
 
         public abstract bool Include();
         public string Write(string fileName = "")
@@ -23,11 +25,14 @@ namespace HTMLDoc
             return fileName;
         }
 
-        public IEnumerable<HTMLComponent> Includes(string tag)
+        public string JsFileName() {
+            return Write(@"data\\{0}.{1}".AsFormat(Tag,Extension()));
+        }
+
+        public IEnumerable<HTMLComponent> Includes()
         {
-            var jsFileName = Write(@"data\\" + tag + ".js");
             if (Include())
-                yield return new JSInclude(jsFileName) as HTMLComponent;
+                yield return new JSInclude(JsFileName()) as HTMLComponent;
         }
     }
 }

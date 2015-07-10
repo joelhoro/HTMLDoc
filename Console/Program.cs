@@ -28,7 +28,7 @@ namespace Console
             Directory.SetCurrentDirectory(@"..\..\..\HTMLDoc\assets");
 
 
-            var htmldoc = new HTMLDoc.HTMLDoc();
+            var htmldoc = new HTMLDoc.HTMLDoc(useJsonTables: false);
             htmldoc.AddCSSandJSLinks();
 
             htmldoc.StartBody();
@@ -37,7 +37,7 @@ namespace Console
             var data = GetRecords();
             var records = data.Item1;
             var headers = data.Item2;
-            htmldoc.AddTable<SalesRecord>(headers, records.Take(5));
+            htmldoc.AddTable<SalesRecord>(records.Take(5));
 
             var persons = new List<PersonRecord>() {
 		        new PersonRecord { Name = "Bob", Age = 54 },
@@ -45,7 +45,7 @@ namespace Console
 	        };
 
             htmldoc.AddToBody("And here goes another table");
-            htmldoc.AddTable<PersonRecord>(new[] { "Name", "Age" }, persons);
+            htmldoc.AddTable<PersonRecord>(persons);
             htmldoc.AddToBody(string.Format("Created at {0}", DateTime.Now.ToString()));
 
             var fileName = "htmlDoc.html";

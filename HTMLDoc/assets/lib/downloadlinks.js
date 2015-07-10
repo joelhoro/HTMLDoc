@@ -17,8 +17,12 @@ angular.module('downloadlinks', [])
       return createURL(content,'application/json');
     },
     jsonTocsv: function(obj) {
-        var csv = ""; 
-        angular.forEach(obj,function(row,k) { 
+        var csv = "";
+        var firstRow = [];
+        angular.forEach(obj[0], function (cell, key) { firstRow.push(key); });
+        allrows = [firstRow].concat(obj);
+        debugger;
+        angular.forEach(allrows,function(row,k) { 
             angular.forEach(row, function (col,j) { csv += col + ","; })
           csv += "\n";
         });
@@ -53,7 +57,7 @@ angular.module('downloadlinks', [])
 .directive('downloadLink', function ($click, $blob, $log, $timeout) {
     // Usage: 
     //
-    //  <button download-link tifle='SomeData' format='csv' data='{{data[0].data}}' headers='{{data[0].headers}}'>Download CSV</button>
+    //  <button download-link tifle='SomeData' format='csv' data='{{data[0]}}'>Download CSV</button>
     //
 
   return {
@@ -63,7 +67,6 @@ angular.module('downloadlinks', [])
         element.on('click', function(event) {
           var a_href, content, title, url, _ref;
           var data = JSON.parse(this.getAttribute('data'));
-          var headers = JSON.parse(this.getAttribute('headers'));
           var title = this.getAttribute('title') || "Untitled";
           var format = this.getAttribute('format');
 
@@ -74,12 +77,12 @@ angular.module('downloadlinks', [])
 
           if (format == 'json') {
             title = $blob.sanitizeFilename(title,format);
-            var obj = { data: data, headers: headers, title: title};
+            var obj = { data: data, title: title};
             url = $blob.jsonToURL(obj);          
           }
           else if (format == 'csv') {
             title = $blob.sanitizeFilename(title,format);
-            var csv = $blob.jsonTocsv([headers].concat(data));
+            var csv = $blob.jsonTocsv(data);
             url = $blob.csvToURL(csv);          
           }
           else {

@@ -39,6 +39,7 @@ namespace HTMLDoc
             AddJSLink(@"{0}/js/jquery-1.11.3.min.js".AsFormat(bootstrapDir));
             AddJSLink(@"{0}/js/bootstrap.js".AsFormat(bootstrapDir));
             AddJSLink("lib/3rdParty/angular.min.js");
+            AddCSSLink(@"lib/css/htmldoc.css");
 
             AddJSLink("lib/downloadlinks.js");
             AddJSLink("lib/htmldoc.js");

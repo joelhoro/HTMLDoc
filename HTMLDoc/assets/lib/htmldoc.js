@@ -41,13 +41,6 @@ angular.module('htmlDoc', [])
 		          	console.log("Sorting by ", $scope.sortColumn, "scope=", $scope);
 		  		}
 		  },
-          template: '<table class="table bootstrap-table table-striped table-hover">' +
-			'<thead><tr><th ng-repeat="header in keys(data)"><a href="#" ng-click="sortColumnFn(header)">{{header}}</a></th></tr></thead>' +
-			'<tbody>' +
-			'	<tr ng-repeat="row in data">' +
-			'		<td ng-repeat="header in keys(data)">{{row[header]}}</td>' +
-			'	</tr>' +
-			'</tbody>' +
-			'</table>',
+          templateUrl: 'templates\\htmltableTemplate.html' 
           	} 
       	} ); 

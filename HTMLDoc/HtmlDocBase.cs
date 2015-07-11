@@ -36,12 +36,6 @@ namespace HTMLDoc
                 .ToDictionary(p => p.Name, p => p.GetValue(row));
         }
 
-        public void AddTable<T>(IEnumerable<string> headers, IEnumerable<T> rows, int tableCount)
-        {
-            var flatRows = rows.Select(r => FlattenObject<T>(r));
-            AddTable(headers, flatRows, tableCount);
-        }
-
         public abstract string AddTable(IEnumerable<Dictionary<string, object>> rows, int tableCount);
     }
 }

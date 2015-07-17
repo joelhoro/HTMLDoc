@@ -1,13 +1,10 @@
 angular.module('htmlDoc', [])
-	   .controller('htmlDocJsonLoader', function($scope,$http,$attrs) {
-			var source = $attrs.source;
-			$http.get(source, { cache: true }).success(function (data) {
+	   .controller('htmlDocJsonLoader', function ($scope, $http, $attrs, $location) {
+	        var source = $attrs.source || $location.url();
+    		$http.get(source, { cache: true }).success(function (data) {
 				$scope.data = data;
 			})
-
-
-
-	   } )
+	   })
 	  .directive('htmlDocTable', function(){
 		// usage:
 		//

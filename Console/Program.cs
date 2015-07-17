@@ -27,8 +27,7 @@ namespace Console
         {
             Directory.SetCurrentDirectory(@"..\..\..\HTMLDoc\assets");
 
-
-            var htmldoc = new HTMLDoc.HTMLDoc(useJsonTables: false);
+            var htmldoc = new HTMLDoc.HTMLDoc(useJsonTables: true);
             htmldoc.AddCSSandJSLinks();
 
             htmldoc.StartBody();

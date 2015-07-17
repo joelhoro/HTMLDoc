@@ -48,10 +48,15 @@ namespace HTMLDoc
             var downloadJson = downloadLink.AsFormat(tableCount, "json", "Json");
 
             return string.Format(@"
-                <div ng-controller='htmlDocJsonLoader' source='{0}'>
-
-                	<div html-doc-table data='data[{1}]'></div>
-                    {2}{3}
+                <div ng-controller='htmlDocJsonLoader'>
+                    <div class='panel'>
+                        <div class='panel-heading'>
+                            {2}{3}
+                        </div>
+                        <div class='panel-body'>
+                        	<div html-doc-table data='data[{1}]'></div>
+                        </div>
+                    </div>
                 </div>
 		        ", JsFileName(), tableCount, downloadCsv, downloadJson);
         }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,6 +28,11 @@ namespace HTMLDoc
             Tag = string.Format("htmldoc_data_{0:yy-MM-dd-HHmmss}", DateTime.Now);
         }
 
+        public static string LoadTemplate(string templateName)
+        {
+            return Utils.ReadResource("HTMLDoc.assets.html.{0}.html".AsFormat(templateName));
+        }
+
         public override string Contents()
         {
             return string.Format(@"[ {0} ]",_tablecode);
@@ -39,26 +45,12 @@ namespace HTMLDoc
                 _tablecode += ", ";
             _tablecode += JsonConvert.SerializeObject(rows);
 
-            var downloadLink = @"
-                    <button download-link title='TableData' format='{1}' data='{{{{data[{0}]}}}}' 
-                            type=button class='btn btn-default btn-sm'>
-                        <span class='glyphicon glyphicon-download-alt'></span>  &nbsp;{2}
-                    </button>";
+            var downloadLink = LoadTemplate("downloadlinktemplate");
             var downloadCsv = downloadLink.AsFormat(tableCount, "csv","CSV");
             var downloadJson = downloadLink.AsFormat(tableCount, "json", "Json");
 
-            return string.Format(@"
-                <div ng-controller='htmlDocJsonLoader'>
-                    <div class='panel'>
-                        <div class='panel-heading'>
-                            {2}{3}
-                        </div>
-                        <div class='panel-body'>
-                        	<div html-doc-table data='data[{1}]'></div>
-                        </div>
-                    </div>
-                </div>
-		        ", JsFileName(), tableCount, downloadCsv, downloadJson);
+            var template = LoadTemplate("tabletemplate");
+            return string.Format(template, JsFileName(), tableCount, downloadCsv, downloadJson);
         }
     }
 }

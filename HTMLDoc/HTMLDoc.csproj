@@ -68,6 +68,8 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <EmbeddedResource Include="assets\html\downloadlinktemplate.html" />
+    <EmbeddedResource Include="assets\html\tabletemplate.html" />
     <Content Include="assets\lib\downloadlinks.js" />
     <Content Include="assets\lib\3rdParty\angular.min.js" />
     <Content Include="assets\lib\3rdParty\bootstrap\css\bootstrap-responsive.css" />
